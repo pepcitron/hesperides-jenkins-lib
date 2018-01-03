@@ -85,7 +85,7 @@ class Hesperides implements Serializable {
                         moduleVersion: args.moduleVersion,
                         location: templateDefinition.location,
                         filename: templateDefinition.filename,
-                        content: steps ? steps.readFile(templatePath) : new File(templatePath).text,
+                        content: readFile(templatePath),
                         title: title)
             }
         }
@@ -504,8 +504,12 @@ class Hesperides implements Serializable {
         }
     }
 
+    private readFile(filePath) {
+        steps ? steps.readFile(filePath) : new File(filePath).text
+    }
+
     private propertiesFromJsonFile(jsonFilePath) {
-        def fileContent = steps ? steps.readFile(jsonFilePath) : new File(jsonFilePath).text
+        def fileContent = readFile(jsonFilePath)
         new JsonSlurperClassic().parseText(fileContent)
     }
 
